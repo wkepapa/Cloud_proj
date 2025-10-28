@@ -1,36 +1,21 @@
-// ===== MIGRATION COMPLETE: EXPRESS → REACT + VITE + AWS AMPLIFY =====
-// 
-// 🎉 Your Express app has been successfully migrated!
-// 
-// 📁 NEW STRUCTURE:
-//   ├── frontend/          → React + Vite app with Tailwind CSS
-//   ├── amplify/           → AWS backend (Lambda + DynamoDB + Cognito)
-//   └── legacy-express/    → Original Express files (preserved)
-//
-// 🚀 TO START THE NEW APP:
-//   cd frontend
-//   npm install
-//   npm run dev
-//
-// ☁️ TO DEPLOY TO AWS:
-//   amplify init
-//   amplify push
-//
-// 📖 See README.md for complete setup instructions
+// ===== ORIGINAL EXPRESS APP - PRESERVED FOR REFERENCE =====
+// This is the original Express application before migration to React + Vite
+// The new React app is in the 'frontend/' directory
+// The new AWS backend is in the 'amplify/' directory
 
-console.log("🔄 MIGRATION COMPLETE!");
-console.log("📁 New React app: ./frontend/");
-console.log("☁️ AWS backend: ./amplify/");
-console.log("📦 Legacy Express: ./legacy-express/");
-console.log("");
-console.log("🚀 Next steps:");
-console.log("   cd frontend");
-console.log("   npm install");
-console.log("   npm run dev");
-console.log("");
-console.log("📖 See README.md for full setup guide");
+import express from "express";
+import session from "express-session";
+import path from "path";
+import { Issuer, generators } from "openid-client";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-process.exit(0);
+// ===== Fix __dirname for ES Modules =====
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 8080;
 
 // ===== View & Static Setup =====
 app.set("view engine", "ejs");
@@ -176,10 +161,3 @@ app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🗂️  Serving views from: ${viewsPath}`);
 });
-
-// ===== MIGRATION NOTICE =====
-console.log("🔄 This Express app has been migrated to React + Vite + AWS Amplify");
-console.log("📁 New frontend: ./frontend/");
-console.log("☁️ AWS backend: ./amplify/");
-console.log("📖 See README.md for setup instructions");
-console.log("🚀 Run 'cd frontend && npm run dev' to start the new React app");

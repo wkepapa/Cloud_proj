@@ -1,0 +1,10 @@
+{
+  "resourceName": "ElectionsDB",
+  "tableName": "ElectionsDB",
+  "partitionKey": {
+    "fieldName": "userId",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

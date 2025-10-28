@@ -1,0 +1,10 @@
+{
+  "name": "ElectionsLambda",
+  "version": "2.0.0",
+  "description": "Lambda function for Elections API",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "aws-sdk": "^2.1467.0"
+  }
+}

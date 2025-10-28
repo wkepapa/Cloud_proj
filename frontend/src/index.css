@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition-colors font-medium;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+  }
+  
+  .candidate-card {
+    @apply card hover:shadow-lg transition-shadow;
+  }
+}
+
+/* Custom Amplify Authenticator Styling */
+[data-amplify-authenticator] {
+  --amplify-colors-brand-primary-60: #3b82f6;
+  --amplify-colors-brand-primary-80: #1e40af;
+  --amplify-colors-brand-primary-90: #1e3a8a;
+  --amplify-colors-brand-primary-100: #1e3a8a;
+  
+  --amplify-components-button-primary-background-color: #3b82f6;
+  --amplify-components-button-primary-hover-background-color: #1e40af;
+  --amplify-components-button-primary-focus-background-color: #1e3a8a;
+  --amplify-components-button-primary-active-background-color: #1e3a8a;
+  
+  --amplify-components-fieldcontrol-border-color: #d1d5db;
+  --amplify-components-fieldcontrol-focus-border-color: #3b82f6;
+  
+  --amplify-space-medium: 1rem;
+  --amplify-space-large: 1.5rem;
+  
+  --amplify-radii-medium: 0.5rem;
+  --amplify-radii-large: 0.75rem;
+}
+
+[data-amplify-authenticator] .amplify-button[data-variation="primary"] {
+  background-color: #3b82f6;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+}
+
+[data-amplify-authenticator] .amplify-button[data-variation="primary"]:hover {
+  background-color: #1e40af;
+  transform: translateY(-1px);
+}
+
+[data-amplify-authenticator] .amplify-input {
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+[data-amplify-authenticator] .amplify-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+[data-amplify-authenticator] .amplify-tabs-item[data-state="active"] {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+
+[data-amplify-authenticator] .amplify-tabs-item {
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+}
+
+[data-amplify-authenticator] .amplify-field-group__outer-end {
+  border-radius: 0.5rem;
+}
+
+[data-amplify-authenticator] .amplify-alert {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+[data-amplify-authenticator] .amplify-alert--error {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+[data-amplify-authenticator] .amplify-alert--info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1d4ed8;
+}
+
+/* Custom form styling */
+[data-amplify-authenticator] .amplify-authenticator__form {
+  gap: 1.5rem;
+}
+
+[data-amplify-authenticator] .amplify-field {
+  margin-bottom: 1rem;
+}
+
+[data-amplify-authenticator] .amplify-label {
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Loading spinner */
+[data-amplify-authenticator] .amplify-loader {
+  border-color: #3b82f6;
+}
+
+/* Link styling */
+[data-amplify-authenticator] .amplify-button[data-variation="link"] {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+[data-amplify-authenticator] .amplify-button[data-variation="link"]:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
