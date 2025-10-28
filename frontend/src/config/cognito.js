@@ -30,10 +30,10 @@ export const COGNITO_CONFIG = {
     return origin;
   },
 
-  // Production domains (update these after deployment)
+  // Production domains (updated with actual deployment URLs)
   PRODUCTION_DOMAINS: [
-    'https://main.d1234567890.amplifyapp.com', // Replace with your Amplify domain
-    'https://d84lty8p4kdlc.cloudfront.net'     // Your existing CloudFront domain
+    'https://main.d3okoijvek90er.amplifyapp.com', // Your Amplify domain
+    'https://d84lty8p4kdlc.cloudfront.net'        // Your existing CloudFront domain
   ],
 
   // Session configuration matching your app client settings
