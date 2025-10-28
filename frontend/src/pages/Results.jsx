@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { get } from 'aws-amplify/api'
 
 function Results() {
   const [results, setResults] = useState([])
@@ -11,23 +10,52 @@ function Results() {
 
   const fetchResults = async () => {
     try {
-      const response = await get({
-        apiName: 'ElectionsAPI',
-        path: '/results'
-      }).response
-      const data = await response.body.json()
-      setResults(data.results || [])
+      // For now, use static data since we don't have the API set up yet
+      // In production, this would call your Lambda API
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      // Get vote counts from localStorage (temporary solution)
+      const votedFor = localStorage.getItem('votedFor')
+      const hasVoted = localStorage.getItem('hasVoted') === 'true'
+      
+      // Base results
+      const baseResults = [
+        { candidate: 'Alice', votes: 45 },
+        { candidate: 'Bob', votes: 32 },
+        { candidate: 'Charlie', votes: 28 }
+      ]
+      
+      // Add user's vote if they voted
+      if (hasVoted && votedFor) {
+        const candidateIndex = baseResults.findIndex(r => r.candidate.toLowerCase() === getCandidateName(votedFor).toLowerCase())
+        if (candidateIndex !== -1) {
+          baseResults[candidateIndex].votes += 1
+        }
+      }
+      
+      setResults(baseResults)
     } catch (error) {
       console.error('Error fetching results:', error)
-      // Fallback data for development
+      // Fallback data
       setResults([
-        { candidate: 'Alice', votes: 120 },
-        { candidate: 'Bob', votes: 98 },
-        { candidate: 'Charlie', votes: 77 }
+        { candidate: 'Alice', votes: 45 },
+        { candidate: 'Bob', votes: 32 },
+        { candidate: 'Charlie', votes: 28 }
       ])
     } finally {
       setLoading(false)
     }
+  }
+
+  const getCandidateName = (candidateId) => {
+    const candidates = {
+      '1': 'Alice',
+      '2': 'Bob', 
+      '3': 'Charlie'
+    }
+    return candidates[candidateId] || 'Unknown'
   }
 
   const totalVotes = results.reduce((sum, result) => sum + result.votes, 0)

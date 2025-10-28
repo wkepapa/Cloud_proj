@@ -44,18 +44,25 @@ class CognitoAuthService {
   // Handle callback (like Express /callback route)
   async handleCallback(code, state) {
     try {
+      console.log('🔄 Handling callback with code:', code?.substring(0, 10) + '...');
+      console.log('🔄 State received:', state);
+      
       const storedState = sessionStorage.getItem('cognito_state');
+      console.log('🔄 Stored state:', storedState);
       
       if (state !== storedState) {
         throw new Error('Invalid state parameter');
       }
 
       // Exchange code for tokens
+      console.log('🔄 Exchanging code for tokens...');
       const tokenResponse = await this.exchangeCodeForTokens(code);
       
       if (tokenResponse.access_token) {
+        console.log('✅ Tokens received, getting user info...');
         // Get user info
         const userInfo = await this.getUserInfo(tokenResponse.access_token);
+        console.log('✅ User info received:', userInfo.email || userInfo.username);
         
         // Store authentication data
         this.tokenSet = tokenResponse;
@@ -74,7 +81,7 @@ class CognitoAuthService {
       
       throw new Error('No access token received');
     } catch (error) {
-      console.error('Callback error:', error);
+      console.error('❌ Callback error:', error);
       return { success: false, error: error.message };
     }
   }
@@ -124,6 +131,8 @@ class CognitoAuthService {
   // Login - redirect to Cognito
   login() {
     const authUrl = this.getAuthUrl();
+    console.log('🔐 Redirecting to Cognito:', authUrl);
+    console.log('📍 Redirect URI:', COGNITO_CONFIG.getRedirectUri());
     window.location.href = authUrl;
   }
 

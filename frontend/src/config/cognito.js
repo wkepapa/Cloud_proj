@@ -4,16 +4,16 @@ export const COGNITO_CONFIG = {
   CLIENT_ID: "o82kd78l2ie1chb3h0223e74k",
   CLIENT_SECRET: "bbsjmpmsn4h68q216gui13cff21lnnl9oatr7j6bun14n77h6pk",
   USER_POOL_ID: "us-east-1_zfMUmmI7i",
-  
+
   // OAuth domain from your managed login pages
   OAUTH_DOMAIN: "https://us-east-1zfmummi7i.auth.us-east-1.amazoncognito.com",
-  
+
   // Cognito IDP domain for token signing
   IDP_DOMAIN: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_zfMUmmI7i",
-  
+
   // Scopes from your configuration
   SCOPES: ['openid', 'email', 'profile'],
-  
+
   // URLs based on environment
   getRedirectUri: () => {
     const origin = window.location.origin;
@@ -24,12 +24,18 @@ export const COGNITO_CONFIG = {
     // For CloudFront or production deployment
     return `${origin}/callback`;
   },
-  
+
   getLogoutUri: () => {
     const origin = window.location.origin;
     return origin;
   },
-  
+
+  // Production domains (update these after deployment)
+  PRODUCTION_DOMAINS: [
+    'https://main.d1234567890.amplifyapp.com', // Replace with your Amplify domain
+    'https://d84lty8p4kdlc.cloudfront.net'     // Your existing CloudFront domain
+  ],
+
   // Session configuration matching your app client settings
   SESSION: {
     DURATION: 3 * 60, // 3 minutes as per your config
