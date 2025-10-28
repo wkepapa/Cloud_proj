@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+<section class="dashboard">
+  <h2>Hello, <%= userInfo.email %> 👋</h2>
+  <h3>Cast Your Vote</h3>
+
+  <div class="candidates">
+    <div class="candidate-card">
+      <h4>Alice</h4>
+      <button class="vote-btn">Vote</button>
+    </div>
+    <div class="candidate-card">
+      <h4>Bob</h4>
+      <button class="vote-btn">Vote</button>
+    </div>
+    <div class="candidate-card">
+      <h4>Charlie</h4>
+      <button class="vote-btn">Vote</button>
+    </div>
+  </div>
+</section>
+<%- include('partials/footer') %>

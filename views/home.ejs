@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+<section class="hero">
+  <h1>Welcome to <span>Stotra</span></h1>
+  <p>The secure, cloud-based student election platform powered by AWS.</p>
+
+  <% if (isAuthenticated) { %>
+    <h2>Hello, <%= userInfo.email || userInfo.name %> 👋</h2>
+    <a href="/dashboard" class="btn">Go to Dashboard</a>
+  <% } else { %>
+    <a href="/login" class="btn">Login with Cognito</a>
+  <% } %>
+</section>
+<%- include('partials/footer') %>
