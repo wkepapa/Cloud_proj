@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../components/AuthProvider'
+import apiService from '../services/api'
 
 function Dashboard() {
-  const { user, isAuthenticated, getAccessToken } = useAuth()
+  const { user, isAuthenticated } = useAuth()
   const [candidates, setCandidates] = useState([])
   const [hasVoted, setHasVoted] = useState(false)
   const [loading, setLoading] = useState(true)
   const [voting, setVoting] = useState(false)
+  const [voteInfo, setVoteInfo] = useState(null)
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -17,15 +19,13 @@ function Dashboard() {
 
   const fetchCandidates = async () => {
     try {
-      // For now, use static data since we don't have the API set up yet
-      // In production, this would call your Lambda API
-      setCandidates([
-        { id: '1', name: 'Alice', description: 'Experienced leader with a vision for change' },
-        { id: '2', name: 'Bob', description: 'Fresh perspective and innovative ideas' },
-        { id: '3', name: 'Charlie', description: 'Innovation focused with proven track record' }
-      ])
+      // Fetch only approved candidates for voting
+      const response = await apiService.getApprovedCandidates()
+      setCandidates(response.candidates || [])
     } catch (error) {
       console.error('Error fetching candidates:', error)
+      // No fallback data - if API fails, show empty list
+      setCandidates([])
     } finally {
       setLoading(false)
     }
@@ -33,11 +33,14 @@ function Dashboard() {
 
   const checkVoteStatus = async () => {
     try {
-      // Check localStorage for vote status (temporary solution)
-      const voted = localStorage.getItem('hasVoted')
-      setHasVoted(voted === 'true')
+      const response = await apiService.getVoteStatus()
+      setHasVoted(response.hasVoted)
+      setVoteInfo(response.vote)
     } catch (error) {
       console.error('Error checking vote status:', error)
+      // Fallback to localStorage check
+      const voted = localStorage.getItem('hasVoted')
+      setHasVoted(voted === 'true')
     }
   }
 
@@ -46,18 +49,19 @@ function Dashboard() {
 
     setVoting(true)
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Store vote in localStorage (temporary solution)
-      localStorage.setItem('hasVoted', 'true')
-      localStorage.setItem('votedFor', candidateId)
+      const response = await apiService.castVote(candidateId)
       
       setHasVoted(true)
-      alert('Vote cast successfully!')
+      setVoteInfo({
+        candidateId,
+        candidateName: response.candidateName,
+        timestamp: new Date().toISOString()
+      })
+      
+      alert(`Vote cast successfully for ${response.candidateName}!`)
     } catch (error) {
       console.error('Error casting vote:', error)
-      alert('Error casting vote. Please try again.')
+      alert(`Error casting vote: ${error.message}`)
     } finally {
       setVoting(false)
     }
@@ -95,9 +99,17 @@ function Dashboard() {
       </div>
 
       {hasVoted && (
-        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6 flex items-center gap-2">
-          <span>✅</span>
-          <span>You have already voted in this election. Thank you for participating!</span>
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <span>✅</span>
+            <span className="font-semibold">You have already voted in this election!</span>
+          </div>
+          {voteInfo && (
+            <div className="text-sm">
+              <p>You voted for: <strong>{voteInfo.candidateName}</strong></p>
+              <p>Time: {new Date(voteInfo.timestamp).toLocaleString()}</p>
+            </div>
+          )}
         </div>
       )}
 

@@ -20,6 +20,10 @@ function Layout({ children }) {
               <Link to="/results" className="text-gray-600 hover:text-gray-900 transition-colors">
                 Results
               </Link>
+              
+              <Link to="/register-candidate" className="text-gray-600 hover:text-gray-900 transition-colors">
+                Run for Office
+              </Link>
 
               {isAuthenticated ? (
                 <>

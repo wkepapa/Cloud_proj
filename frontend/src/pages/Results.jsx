@@ -1,64 +1,43 @@
 import { useState, useEffect } from 'react'
+import apiService from '../services/api'
 
 function Results() {
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(true)
+  const [totalVotes, setTotalVotes] = useState(0)
+  const [lastUpdated, setLastUpdated] = useState(null)
 
   useEffect(() => {
     fetchResults()
+    
+    // Auto-refresh results every 30 seconds
+    const interval = setInterval(fetchResults, 30000)
+    return () => clearInterval(interval)
   }, [])
 
   const fetchResults = async () => {
     try {
-      // For now, use static data since we don't have the API set up yet
-      // In production, this would call your Lambda API
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Get vote counts from localStorage (temporary solution)
-      const votedFor = localStorage.getItem('votedFor')
-      const hasVoted = localStorage.getItem('hasVoted') === 'true'
-      
-      // Base results
-      const baseResults = [
-        { candidate: 'Alice', votes: 45 },
-        { candidate: 'Bob', votes: 32 },
-        { candidate: 'Charlie', votes: 28 }
-      ]
-      
-      // Add user's vote if they voted
-      if (hasVoted && votedFor) {
-        const candidateIndex = baseResults.findIndex(r => r.candidate.toLowerCase() === getCandidateName(votedFor).toLowerCase())
-        if (candidateIndex !== -1) {
-          baseResults[candidateIndex].votes += 1
-        }
-      }
-      
-      setResults(baseResults)
+      const response = await apiService.getResults()
+      setResults(response.results || [])
+      setTotalVotes(response.totalVotes || 0)
+      setLastUpdated(response.timestamp)
     } catch (error) {
       console.error('Error fetching results:', error)
-      // Fallback data
+      // Fallback to static data if API fails
       setResults([
-        { candidate: 'Alice', votes: 45 },
-        { candidate: 'Bob', votes: 32 },
-        { candidate: 'Charlie', votes: 28 }
+        { candidate: 'Alice Johnson', votes: 45, percentage: '45.0' },
+        { candidate: 'Bob Smith', votes: 32, percentage: '32.0' },
+        { candidate: 'Charlie Davis', votes: 28, percentage: '28.0' }
       ])
+      setTotalVotes(105)
     } finally {
       setLoading(false)
     }
   }
 
-  const getCandidateName = (candidateId) => {
-    const candidates = {
-      '1': 'Alice',
-      '2': 'Bob', 
-      '3': 'Charlie'
-    }
-    return candidates[candidateId] || 'Unknown'
-  }
-
-  const totalVotes = results.reduce((sum, result) => sum + result.votes, 0)
+  // Calculate total votes if not provided by API
+  const calculatedTotal = results.reduce((sum, result) => sum + result.votes, 0)
+  const displayTotal = totalVotes || calculatedTotal
 
   if (loading) {
     return (
@@ -75,8 +54,15 @@ function Results() {
       
       <div className="max-w-4xl mx-auto">
         <div className="card">
-          <div className="mb-6">
-            <p className="text-lg text-gray-600">Total Votes Cast: <span className="font-semibold">{totalVotes}</span></p>
+          <div className="mb-6 flex justify-between items-center">
+            <p className="text-lg text-gray-600">
+              Total Votes Cast: <span className="font-semibold">{displayTotal}</span>
+            </p>
+            {lastUpdated && (
+              <p className="text-sm text-gray-500">
+                Last updated: {new Date(lastUpdated).toLocaleTimeString()}
+              </p>
+            )}
           </div>
           
           <div className="overflow-x-auto">
@@ -93,7 +79,7 @@ function Results() {
                 {results
                   .sort((a, b) => b.votes - a.votes)
                   .map((result, index) => {
-                    const percentage = totalVotes > 0 ? ((result.votes / totalVotes) * 100).toFixed(1) : 0
+                    const percentage = result.percentage || (displayTotal > 0 ? ((result.votes / displayTotal) * 100).toFixed(1) : 0)
                     return (
                       <tr key={result.candidate} className="border-b border-gray-100 hover:bg-gray-50">
                         <td className="py-4 px-4">

@@ -1,3 +1,4 @@
+/* PostCSS with Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,15 +13,15 @@
   .btn {
     @apply px-6 py-3 bg-primary text-white rounded-lg hover:bg-secondary transition-colors font-medium;
   }
-  
+
   .btn-secondary {
     @apply px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-medium;
   }
-  
+
   .card {
     @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
   }
-  
+
   .candidate-card {
     @apply card hover:shadow-lg transition-shadow;
   }
@@ -32,18 +33,18 @@
   --amplify-colors-brand-primary-80: #1e40af;
   --amplify-colors-brand-primary-90: #1e3a8a;
   --amplify-colors-brand-primary-100: #1e3a8a;
-  
+
   --amplify-components-button-primary-background-color: #3b82f6;
   --amplify-components-button-primary-hover-background-color: #1e40af;
   --amplify-components-button-primary-focus-background-color: #1e3a8a;
   --amplify-components-button-primary-active-background-color: #1e3a8a;
-  
+
   --amplify-components-fieldcontrol-border-color: #d1d5db;
   --amplify-components-fieldcontrol-focus-border-color: #3b82f6;
-  
+
   --amplify-space-medium: 1rem;
   --amplify-space-large: 1.5rem;
-  
+
   --amplify-radii-medium: 0.5rem;
   --amplify-radii-large: 0.75rem;
 }
