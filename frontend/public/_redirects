@@ -1,0 +1,2 @@
+# Amplify redirects for API proxy
+/api/* https://r1fgh30fha.execute-api.us-east-1.amazonaws.com/:splat 200
