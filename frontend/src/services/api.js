@@ -4,10 +4,10 @@ import cognitoAuth from './cognitoAuth.js';
 // API Configuration for Lambda Functions
 const API_CONFIG = {
   // Elections API Lambda (handles voting, results, public endpoints)
-  ELECTIONS_API: import.meta.env.VITE_ELECTIONS_API_URL || 'https://YOUR_ELECTIONS_API_GATEWAY_URL',
+  ELECTIONS_API: import.meta.env.VITE_ELECTIONS_API_URL || 'https://r1fgh30fha.execute-api.us-east-1.amazonaws.com',
   
   // Candidate Management API Lambda (handles registration, admin functions)
-  CANDIDATE_API: import.meta.env.VITE_CANDIDATE_API_URL || 'https://YOUR_CANDIDATE_MANAGEMENT_API_GATEWAY_URL',
+  CANDIDATE_API: import.meta.env.VITE_CANDIDATE_API_URL || 'https://r1fgh30fha.execute-api.us-east-1.amazonaws.com',
   
   // Development fallback (if using single endpoint)
   DEV_URL: 'http://localhost:3000',
